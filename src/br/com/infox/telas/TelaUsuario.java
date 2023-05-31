@@ -45,6 +45,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado");
                 // as linhas abaixo limpam os campos
+                
                 txtUsuNome.setText(null);
                 txtUsuFone.setText(null);
                 txtUsuLogin.setText(null);
@@ -82,11 +83,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 // System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso");
-                    txtUsuId.setText(null);
-                    txtUsuNome.setText(null);
-                    txtUsuFone.setText(null);
-                    txtUsuLogin.setText(null);
-                    txtUsuSenha.setText(null);
+                    limpar();
 
                 }
             }
@@ -119,11 +116,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 // System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do Usuário Alterados com sucesso");
-                    txtUsuId.setText(null);
-                    txtUsuNome.setText(null);
-                    txtUsuFone.setText(null);
-                    txtUsuLogin.setText(null);
-                    txtUsuSenha.setText(null);
+                    limpar();
 
                 }
             }
@@ -145,17 +138,23 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 int apagado = pst.executeUpdate();
                 if (apagado > 0) {
                     JOptionPane.showMessageDialog(null, "Usuário Removido com Sucesso");
-                    txtUsuId.setText(null);
-                    txtUsuNome.setText(null);
-                    txtUsuFone.setText(null);
-                    txtUsuLogin.setText(null);
-                    txtUsuSenha.setText(null);
+                    limpar();
                 }
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+
+    }
+
+    // método para limpar os campos
+    private void limpar() {
+        txtUsuId.setText(null);
+        txtUsuNome.setText(null);
+        txtUsuFone.setText(null);
+        txtUsuLogin.setText(null);
+        txtUsuSenha.setText(null);
 
     }
 
