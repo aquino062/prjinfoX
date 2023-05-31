@@ -1,2 +1,2 @@
-# prjinfoX
-  Java MySQL - Sistema para controle de Ordem de Serviços
+# Java MySQL - Sistema para controle de Ordem de Serviços
+
