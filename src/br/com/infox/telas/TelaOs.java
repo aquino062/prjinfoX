@@ -8,6 +8,7 @@ package br.com.infox.telas;
 import java.sql.*;
 import br.com.infox.dal.ModuloConexao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -66,20 +67,18 @@ public class TelaOs extends javax.swing.JInternalFrame {
             pst.setString(8, txtCliId.getText());
 
             // validação dos campos obrigatórios
-            if (txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || txtOsDef.getText().isEmpty()) {
+            if (txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || txtOsDef.getText().isEmpty() || cboOsSit.getSelectedItem().equals(" ")) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
             } else {
                 int adicionado = pst.executeUpdate();
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "OS emitida com sucesso");
+                    btnOsAdicionar.setEnabled(false);
+                    btnOsPesquisar.setEnabled(false);
+                    btnOsImprimir.setEnabled(true);
+                    
 
-                    // limpas os campos
-                    txtCliId.setText(null);
-                    txtOsEquip.setText(null);
-                    txtOsDef.setText(null);
-                    txtOsServ.setText(null);
-                    txtOsTec.setText(null);
-                    txtOsValor.setText(null);
+                   
 
                 }
             }
@@ -133,6 +132,88 @@ public class TelaOs extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e2);
         }
 
+    }
+
+    // método para alterar os
+    private void alterar_os() {
+        String sql = "update tbos set tipo=?, situacao=?,equipamento=?,defeito=?,servico=?,tecnico=?,valor=? where os=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, cboOsSit.getSelectedItem().toString());
+            pst.setString(3, txtOsEquip.getText());
+            pst.setString(4, txtOsDef.getText());
+            pst.setString(5, txtOsServ.getText());
+            pst.setString(6, txtOsTec.getText());
+            // replace substitui a virgula pelo ponto
+            pst.setString(7, txtOsValor.getText().replace(",", "."));
+            pst.setString(8, txtOs.getText());
+
+            // validação dos campos obrigatórios
+            if (txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || txtOsDef.getText().isEmpty() || cboOsSit.getSelectedItem().equals(" ")) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+            } else {
+                int adicionado = pst.executeUpdate();
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "OS alterada com sucesso");
+
+                    // limpas os campos e habilita os botões
+                    Limpar();
+
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+    // método para excluir os
+
+    private void excluir_os() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esta OS?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tbos where os=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtOs.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "OS excluida com Sucesso");
+
+                    // limpas os campos e habilita os botões
+                    Limpar();
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+
+    }
+
+    // método que limpa os campos e gerencia os botões
+    private void Limpar() {
+        // limpas os campos
+        txtOs.setText(null);
+        txtData.setText(null);
+        txtCliId.setText(null);
+        txtOsEquip.setText(null);
+        txtOsDef.setText(null);
+        txtOsServ.setText(null);
+        txtOsTec.setText(null);
+        txtOsValor.setText(null);
+        //habilitar os objtos
+        btnOsAdicionar.setEnabled(true);
+        txtCliPesquisar.setEditable(true);
+        tblClientes.setVisible(true);
+        txtCliPesquisar.setText(null);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
+        cboOsSit.setSelectedItem(" ");
+        //desabilitar os botões
+        btnOsAlterar.setEnabled(false);
+        btnOsExcluir.setEnabled(false);
+        btnOsImprimir.setEnabled(false);
     }
 
     /**
@@ -270,9 +351,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jLabel3.setText("Situação");
+        jLabel3.setText("*Situação");
 
-        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Na bancada", "Entrega ok", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Abandonado pelo Cliente", "Retornou" }));
+        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Na bancada", "Entrega ok", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Abandonado pelo Cliente", "Retornou" }));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
 
@@ -376,17 +457,30 @@ public class TelaOs extends javax.swing.JInternalFrame {
         btnOsExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/delet.png"))); // NOI18N
         btnOsExcluir.setToolTipText("Excluir");
         btnOsExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOsExcluir.setEnabled(false);
         btnOsExcluir.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnOsExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOsExcluirActionPerformed(evt);
+            }
+        });
 
         btnOsImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/impressora.png"))); // NOI18N
         btnOsImprimir.setToolTipText("ImprimirOs");
         btnOsImprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOsImprimir.setEnabled(false);
         btnOsImprimir.setPreferredSize(new java.awt.Dimension(80, 80));
 
         btnOsAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/update.png"))); // NOI18N
         btnOsAlterar.setToolTipText("Alterar");
         btnOsAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOsAlterar.setEnabled(false);
         btnOsAlterar.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnOsAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOsAlterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -515,6 +609,16 @@ public class TelaOs extends javax.swing.JInternalFrame {
         // chamando o método pesquisar os
         pesquisar_os();
     }//GEN-LAST:event_btnOsPesquisarActionPerformed
+
+    private void btnOsAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsAlterarActionPerformed
+        // chamando o método alterar os
+        alterar_os();
+    }//GEN-LAST:event_btnOsAlterarActionPerformed
+
+    private void btnOsExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsExcluirActionPerformed
+        // chamando o método para excluir uma os
+        excluir_os();
+    }//GEN-LAST:event_btnOsExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
