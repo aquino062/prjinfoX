@@ -16,7 +16,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
-
 /**
  *
  * @author willian
@@ -208,29 +207,30 @@ public class TelaOs extends javax.swing.JInternalFrame {
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão desta OS?", "Atençao", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
 
-        }
-        //emprimindo uma os com o framework jasperReports
-        try {
-            //usando a classe Hashmap para criar um filtro
-            HashMap filtro = new HashMap();
-            filtro.put("os", Integer.parseInt(txtOs.getText()));
+            //emprimindo uma os com o framework jasperReports
+            try {
+                //usando a classe Hashmap para criar um filtro
+                HashMap filtro = new HashMap();
+                filtro.put("os", Integer.parseInt(txtOs.getText()));
 
-            //usando a classe JasperPrint para preparar a impressão da os
-            JasperPrint print = JasperFillManager.fillReport("C:\\reports\\os.jasper", (Map<String, Object>) filtro, conexao);
-            // a linha abaixo exibe o relatório através da classe JasperViewer
-            JasperViewer.viewReport(print, false);
+                //usando a classe JasperPrint para preparar a impressão da os
+                JasperPrint print = JasperFillManager.fillReport("C:\\reports\\os.jasper", (Map<String, Object>) filtro, conexao);
+                // a linha abaixo exibe o relatório através da classe JasperViewer
+                JasperViewer.viewReport(print, false);
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
+
     // recuperar OS gerado de forma automatica pelo auto incremento
-    private void recuperar_os(){
-        String sql="select max(os) from tbos";
+    private void recuperar_os() {
+        String sql = "select max(os) from tbos";
         try {
-            pst=conexao.prepareStatement(sql);
-            rs=pst.executeQuery();
-            if(rs.next()){
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
                 txtOs.setText(rs.getString(1));
             }
         } catch (Exception e) {

@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2023 willian.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package br.com.infox.telas;
 
@@ -13,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
+ * Tela de gestão de clientes
  *
  * @author willian
  */
@@ -31,7 +50,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     }
 
-    // método para adicionar clientes
+    /**
+     * Método responsável por adicionar um novo cliente
+     */
+
     private void adicionar() {
         String sql = "insert into tbclientes(nomecli,endcli,fonecli,emailcli) values(?,?,?,?)";
         try {
@@ -65,7 +87,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    // método para pesquisar clientes com filtro
+    /**
+     * Método responsável pela pesquisa de clientes pelo nome com filtro
+     */
     private void pesquisar_cliente() {
         String sql = "select idcli as id, nomecli as nome, endcli as endereço, fonecli as fone, emailcli as email  from tbclientes where nomecli like ? ";
         try {
@@ -82,7 +106,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    // método para setar os campos do formulario com o conteúdo da tabela
+    /**
+     * método usado para setar os campos de texto com o conteúdo da tabela
+     */
     public void setar_campos() {
         int setar = tblClientes.getSelectedRow();
         txtCliId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
@@ -95,7 +121,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         btnAdicionar.setEnabled(false);
     }
 
-    //método para alterar dados do cliente
+    /**
+     * método para alterar dados do cliente
+     */
     private void alterar() {
         String sql = "update tbclientes set nomecli=?,endcli=?,fonecli=?,emailcli=? where idcli=?";
         try {
@@ -129,9 +157,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    // método responsavel pela remoção de clientes
+    /**
+     * método responsavel pela remoção de clientes
+     */
     private void remover() {
-        //a estrutura abaixo confirma a remoção do usuario 
+
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este Cliente", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             String sql = "delete from tbclientes where idcli=?";
@@ -141,7 +171,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 int apagado = pst.executeUpdate();
                 if (apagado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente Removido com Sucesso");
-                   limpar();
+                    limpar();
                     btnAdicionar.setEnabled(true);
                 }
 
@@ -152,7 +182,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     }
 
-    // método para limpar os campos do formulário
+    /**
+     * método para limpar os campos do formulário
+     */
     private void limpar() {
         txtCliPesquisar.setText(null);
         txtCliId.setText(null);
@@ -161,8 +193,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCliFone.setText(null);
         txtCliEmail.setText(null);
         ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
-        
-        
+
     }
 
     /**
