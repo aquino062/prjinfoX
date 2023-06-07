@@ -11,6 +11,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
+ * Autenticação do usuário
  *
  * @author willian
  */
@@ -20,6 +21,9 @@ public class TelaLogin extends javax.swing.JFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
 
+    /**
+     * Método responsável pela autenticação e gestão de perfil do usuário
+     */
     public void logar() {
         String sql = "select * from tbusuarios where login=? and senha=?";
         try {
@@ -65,7 +69,7 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     /**
-     * Creates new form TelaLogin
+     * Método responsável por exibir o ícone de status da conexão
      */
     public TelaLogin() {
         initComponents();

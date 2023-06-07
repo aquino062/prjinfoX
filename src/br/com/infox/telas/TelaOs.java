@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2023 willian.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package br.com.infox.telas;
 
@@ -17,6 +35,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
+ * Tela de gestão do sistema
  *
  * @author willian
  */
@@ -38,6 +57,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
         conexao = ModuloConexao.conector();
     }
 
+    /**
+     * Método responsável pela pesquisa do cliente que será vinculado a OS
+     */
     private void pesquisar_cliente() {
         String sql = "select idcli as Id,nomecli as Nome,fonecli as Fone from tbclientes where nomecli like?";
         try {
@@ -51,12 +73,17 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Método responsável por setar o ID do cliente na OS
+     */
     private void setar_campos() {
         int setar = tblClientes.getSelectedRow();
         txtCliId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
     }
 
-    // método para cadastar uma OS
+    /**
+     * Método responsável pela emissão de uma Ordem de Serviço
+     */
     private void emitir_os() {
         String sql = "insert into tbos (tipo,situacao,equipamento,defeito,servico,tecnico,valor,idcli) values (?,?,?,?,?,?,?,?)";
         try {
@@ -92,7 +119,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
-    // método para pesquisar uma os
+    /**
+     * Método responsável pela pesquisa de uma Ordem de Serviço
+     */
     private void pesquisar_os() {
         // a linha abaixo cria uma caixa de entrada do tipo JOption Pane
         String num_os = JOptionPane.showInputDialog("Número da OS");
@@ -143,7 +172,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
     }
 
-    // método para alterar os
+    /**
+     * Método responsável pela edição de uma Ordem de Seviço
+     */
     private void alterar_os() {
         String sql = "update tbos set tipo=?, situacao=?,equipamento=?,defeito=?,servico=?,tecnico=?,valor=? where os=?";
         try {
@@ -177,8 +208,10 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
 
     }
-    // método para excluir os
 
+    /**
+     * Método responsável pela exclusão de uma Ordem de Serviço
+     */
     private void excluir_os() {
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esta OS?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
@@ -201,7 +234,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
     }
 
-    // método para imprimir uma os
+    /**
+     * Método responsável pela impressão da Ordem de Serviço com JasperReports
+     */
     private void imprimir_os() {
         // imprimindo uma os
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão desta OS?", "Atençao", JOptionPane.YES_NO_OPTION);
@@ -214,7 +249,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 filtro.put("os", Integer.parseInt(txtOs.getText()));
 
                 //usando a classe JasperPrint para preparar a impressão da os
-                JasperPrint print = JasperFillManager.fillReport("C:\\reports\\os.jasper", (Map<String, Object>) filtro, conexao);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/os.jasper"), (Map<String, Object>) filtro, conexao);
                 // a linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
 
@@ -224,7 +259,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
-    // recuperar OS gerado de forma automatica pelo auto incremento
+    /**
+     * Método usado para recuperar o número da OS
+     */
     private void recuperar_os() {
         String sql = "select max(os) from tbos";
         try {
@@ -238,7 +275,9 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
-    // método que limpa os campos e gerencia os botões
+    /**
+     * Método responsável por limpar os campos e gerenciar os componentes
+     */
     private void Limpar() {
         // limpas os campos
         txtOs.setText(null);

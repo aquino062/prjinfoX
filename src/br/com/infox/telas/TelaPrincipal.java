@@ -34,6 +34,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * Tela principal do sistema
+ *
  * @author willian
  */
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -48,9 +49,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         conexao = ModuloConexao.conector();
     }
 
-    /**
-     * Método responsável pela emissão do relatório de clientes com JasperReports 
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -297,6 +295,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menCadCliActionPerformed
 
+    /**
+     * Método responsável pela emissão do relatório de clientes com
+     * JasperReports
+     *
+     * @param evt
+     */
     private void menRelCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelCliActionPerformed
         // gerando um relatório de clientes
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão deste relatório?", "Atençao", JOptionPane.YES_NO_OPTION);
@@ -306,7 +310,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             try {
 
                 //usando a classe JasperPrint para preparar a impressão de um relatório
-                JasperPrint print = JasperFillManager.fillReport("C:\\reports\\clientes.jasper", null, conexao);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/clientes.jasper"), null, conexao);
                 // a linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
 
@@ -315,6 +319,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_menRelCliActionPerformed
     }
+
+    /**
+     * Método responsável pela emissão do relatório de serviços com
+     * JasperReports
+     *
+     * @param evt
+     */
     private void menRelSelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelSelActionPerformed
 
         // gerando um relatório de serviços
@@ -325,7 +336,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             try {
 
                 //usando a classe JasperPrint para preparar a emissão de um relatório
-                JasperPrint print = JasperFillManager.fillReport("C:\\reports\\servicos.jasper", null, conexao);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/servicos.jasper"), null, conexao);
                 // a linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
 
