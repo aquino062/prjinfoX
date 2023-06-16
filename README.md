@@ -5,6 +5,13 @@
 sistema para gestão de ordem de serviços (Sistema OS) de uma assistência técnica de computadores e periféricos. Este projeto é muito popular e serve como modelo para outros projetos de gestão de serviços, como por exemplo assistências técnicas de smartphones, eletrodomésticos, oficinas mecânicas etc.
 
 ## Layout
+https://github.com/aquino062/prjinfoX/blob/main/assets/tela-login.jpg
+
+https://github.com/aquino062/prjinfoX/blob/main/assets/tela-clientes.jpg
+
+https://github.com/aquino062/prjinfoX/blob/main/assets/tela-os.jpg
+
+https://github.com/aquino062/prjinfoX/blob/main/assets/tela-usuarios.jpg
 
 
 ### Bibliotecas
