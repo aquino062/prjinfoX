@@ -45,8 +45,3 @@ Essas instruções fornecerão uma cópia do projeto instalado e funcionando em 
 * Execute a instalação. Na tela de login faça a autenticação com o usuário "admin" usando a senha "admin"
 
 
-# Autor
-
-Willian de aquino 
-
-https://www.linkedin.com/in/willian-aquino-b7881924a/
